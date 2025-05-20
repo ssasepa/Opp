@@ -1,0 +1,605 @@
+<!DOCTYPE html>
+<html lang="sa">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>प्रवेशः</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Noto Sans Devanagari', sans-serif;
+        }
+
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background: linear-gradient(135deg, #6b48ff, #00ddeb);
+            overflow: hidden;
+            position: relative;
+        }
+
+        #particles-js {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+        }
+
+        .container {
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(15px);
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            width: 420px;
+            text-align: center;
+            transition: opacity 0.5s ease, transform 0.5s ease;
+        }
+
+        .container.hidden {
+            opacity: 0;
+            transform: scale(0.8) translateY(50px);
+            pointer-events: none;
+        }
+
+        @keyframes slideIn {
+            0% { opacity: 0; transform: translateX(-50px); }
+            100% { opacity: 1; transform: translateX(0); }
+        }
+
+        h1 {
+            color: #fff;
+            font-size: 30px;
+            margin-bottom: 25px;
+            text-shadow: 0 0 10px rgba(0, 0, 0, 0.4);
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+            position: relative;
+            transition: opacity 0.5s ease;
+        }
+
+        .form-group.hidden {
+            opacity: 0;
+        }
+
+        input {
+            width: 100%;
+            padding: 12px 12px 12px 40px;
+            background: rgba(255, 255, 255, 0.2);
+            border: none;
+            border-radius: 10px;
+            color: #fff;
+            font-size: 16px;
+            outline: none;
+            transition: 0.3s;
+        }
+
+        input:focus {
+            background: rgba(255, 255, 255, 0.3);
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .form-group i {
+            position: absolute;
+            left: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #ddd;
+            font-size: 18px;
+        }
+
+        label {
+            position: absolute;
+            top: 12px;
+            left: 40px;
+            color: #ddd;
+            font-size: 14px;
+            pointer-events: none;
+            transition: 0.3s;
+        }
+
+        input:focus + i + label,
+        input:not(:placeholder-shown) + i + label {
+            top: -20px;
+            left: 10px;
+            font-size: 12px;
+            color: #fff;
+        }
+
+        button {
+            width: 100%;
+            padding: 12px;
+            background: #ff2e63;
+            border: none;
+            border-radius: 10px;
+            color: #fff;
+            font-size: 18px;
+            cursor: pointer;
+            transition: opacity 0.5s ease;
+        }
+
+        button.hidden {
+            opacity: 0;
+        }
+
+        button i {
+            margin-right: 8px;
+        }
+
+        button:hover {
+            background: #e02555;
+            transform: scale(1.05);
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+            animation: pulse 1s infinite;
+        }
+
+        @keyframes pulse {
+            0% { box-shadow: 0 0 0 0 rgba(255, 46, 99, 0.7); }
+            70% { box-shadow: 0 0 0 15px rgba(255, 46, 99, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(255, 46, 99, 0); }
+        }
+
+        /* Hacking Animation for Website Name */
+        .website-name {
+            margin-top: 20px;
+            font-size: 24px;
+            text-shadow: 0 0 10px rgba(0, 0, 0, 0.4);
+            display: inline-block;
+            position: relative;
+            color: #0f0;
+            font-family: 'Courier New', monospace;
+            transition: opacity 0.5s ease;
+        }
+
+        .website-name.hidden {
+            opacity: 0;
+        }
+
+        .website-name span {
+            display: inline-block;
+            position: relative;
+            animation: glitch 1s infinite alternate, colorChange 2s infinite;
+            animation-delay: calc(0.1s * var(--i));
+        }
+
+        @keyframes glitch {
+            0% { transform: translate(0); opacity: 1; }
+            20% { transform: translate(-2px, 2px); opacity: 0.8; }
+            40% { transform: translate(2px, -2px); opacity: 0.6; }
+            60% { transform: translate(-1px, 1px); opacity: 0.8; }
+            80% { transform: translate(1px, -1px); opacity: 0.9; }
+            100% { transform: translate(0); opacity: 1; }
+        }
+
+        @keyframes colorChange {
+            0% { color: #0f0; text-shadow: 0 0 5px #0f0, 0 0 10px #0f0; }
+            50% { color: #f00; text-shadow: 0 0 5px #f00, 0 0 10px #f00; }
+            100% { color: #fff; text-shadow: 0 0 5px #fff, 0 0 10px #fff; }
+        }
+
+        .website-name::before,
+        .website-name::after {
+            content: 'कुट';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0.7;
+            clip-path: polygon(0 0, 100% 0, 100% 30%, 0 30%);
+        }
+
+        .website-name::before {
+            animation: glitch 2s infinite;
+            transform: translate(2px, -2px);
+            color: #f00;
+        }
+
+        .website-name::after {
+            animation: glitch 2.5s infinite reverse;
+            transform: translate(-2px, 2px);
+            color: #0f0;
+        }
+
+        /* Success and Error Message Styles */
+        .message {
+            margin-top: 15px;
+            font-size: 18px;
+            font-family: 'Courier New', monospace;
+            text-align: center;
+            padding: 10px;
+            border-radius: 5px;
+            display: none;
+        }
+
+        .success {
+            color: #0f0;
+            background: rgba(0, 255, 0, 0.2);
+            animation: successAnim 1s ease-in-out;
+        }
+
+        .error {
+            color: #f00;
+            background: rgba(255, 0, 0, 0.2);
+            animation: errorAnim 0.5s infinite;
+        }
+
+        /* Enhanced Red Alert */
+        .red-alert {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 0, 0, 0.6) url('https://www.transparenttextures.com/patterns/circuit-board.png') repeat;
+            backdrop-filter: blur(5px);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            animation: redAlertAnim 0.4s infinite;
+        }
+
+        .red-alert.photo-captured {
+            background: rgba(255, 0, 0, 0.6);
+        }
+
+        .red-alert .danger-container {
+            text-align: center;
+        }
+
+        .red-alert .danger-icon {
+            font-size: 48px;
+            color: #f00;
+            text-shadow: 0 0 15px #f00, 0 0 30px #f00;
+            margin-bottom: 20px;
+            animation: dangerIconAnim 0.5s infinite;
+        }
+
+        .red-alert .danger {
+            color: #f00;
+            font-size: 40px;
+            font-weight: bold;
+            font-family: 'Courier New', monospace;
+            text-shadow: 0 0 15px #f00, 0 0 30px #f00;
+            position: relative;
+            white-space: nowrap;
+            overflow: hidden;
+            display: inline-block;
+            animation: typing 2s steps(10) infinite, dangerAnim 0.3s infinite;
+        }
+
+        .red-alert .danger::before,
+        .red-alert .danger::after {
+            content: 'अज्ञातं संनादति!';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0.7;
+        }
+
+        .red-alert .danger::before {
+            animation: glitch 0.8s infinite;
+            transform: translate(5px, -5px);
+            color: #fff;
+        }
+
+        .red-alert .danger::after {
+            animation: glitch 1s infinite reverse;
+            transform: translate(-5px, 5px);
+            color: #0f0;
+        }
+
+        /* Random Character Flicker */
+        .red-alert .random-chars {
+            position: absolute;
+            top: -20px;
+            left: 0;
+            width: 100%;
+            color: #0f0;
+            font-family: 'Courier New', monospace;
+            font-size: 20px;
+            opacity: 0.5;
+            animation: flickerChars 0.1s infinite;
+        }
+
+        /* Scan Lines */
+        .red-alert::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: repeating-linear-gradient(
+                0deg,
+                rgba(0, 0, 0, 0.3),
+                rgba(0, 0, 0, 0.3) 2px,
+                transparent 2px,
+                transparent 4px
+            );
+            animation: scanLines 1.5s linear infinite;
+        }
+
+        @keyframes scanLines {
+            0% { background-position: 0 0; }
+            100% { background-position: 0 4px; }
+        }
+
+        @keyframes successAnim {
+            0% { transform: scale(0.8); opacity: 0; }
+            50% { transform: scale(1.1); opacity: 1; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
+        @keyframes errorAnim {
+            0% { transform: translateX(0); }
+            25% { transform: translateX(-5px); }
+            50% { transform: translateX(5px); }
+            75% { transform: translateX(-5px); }
+            100% { transform: translateX(0); }
+        }
+
+        @keyframes dangerAnim {
+            0% { transform: translate(0); opacity: 1; }
+            20% { transform: translate(-6px, 6px); opacity: 0.6; }
+            40% { transform: translate(6px, -6px); opacity: 0.4; }
+            60% { transform: translate(-4px, 4px); opacity: 0.6; }
+            80% { transform: translate(4px, -4px); opacity: 0.4; }
+            100% { transform: translate(0); opacity: 1; }
+        }
+
+        @keyframes dangerIconAnim {
+            0% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.2); opacity: 0.7; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
+        @keyframes redAlertAnim {
+            0% { background-color: rgba(255, 0, 0, 0.6); }
+            50% { background-color: rgba(255, 0, 0, 0.8); }
+            100% { background-color: rgba(255, 0, 0, 0.6); }
+        }
+
+        @keyframes typing {
+            0% { width: 0; }
+            50% { width: 100%; }
+            100% { width: 0; }
+        }
+
+        @keyframes flickerChars {
+            0% { content: '!@#$%^&*()'; }
+            20% { content: '#$%^&*()!@'; }
+            40% { content: '%^&*()!@#$'; }
+            60% { content: '&*()!@#$%^'; }
+            80% { content: '*()!@#$%^&'; }
+            100% { content: '!@#$%^&*()'; }
+        }
+
+        /* Screen Shake */
+        .shake-screen {
+            animation: screenShake 0.2s infinite;
+        }
+
+        @keyframes screenShake {
+            0% { transform: translate(0); }
+            25% { transform: translate(-6px, 6px); }
+            50% { transform: translate(6px, -6px); }
+            75% { transform: translate(-4px, 4px); }
+            100% { transform: translate(0); }
+        }
+
+        /* Hidden Video for Webcam Capture */
+        #webcam {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div id="particles-js"></div>
+    <div class="container">
+        <h1>प्रवेशः</h1>
+        <div class="form-group">
+            <input type="text" id="username" placeholder=" " required>
+            <i class="fa fa-user"></i>
+            <label for="username">उपयोक्तृनामः</label>
+        </div>
+        <div class="form-group">
+            <input type="password" id="password" placeholder=" " required>
+            <i class="fa fa-lock"></i>
+            <label for="password">गूढवाक्यम्</label>
+        </div>
+        <button onclick="login()"><i class="fa fa-sign-in-alt"></i>प्रवेशः</button>
+        <!-- Message Display -->
+        <div id="message" class="message"></div>
+        <!-- Animated Website Name -->
+        <h2 class="website-name">
+            <span style="--i:1">क</span>
+            <span style="--i:2">ु</span>
+            <span style="--i:3">ट</span>
+        </h2>
+    </div>
+    <!-- Enhanced Red Alert -->
+    <div id="redAlert" class="red-alert">
+        <div class="danger-container">
+            <i class="fas fa-exclamation-triangle danger-icon"></i>
+            <div class="danger">अज्ञातं संनादति!</div>
+            <div class="random-chars"></div>
+        </div>
+    </div>
+    <!-- Hidden Video and Canvas for Webcam -->
+    <video id="webcam" autoplay></video>
+    <canvas id="photoCanvas" style="display: none;"></canvas>
+
+    <audio id="alertSound" src="alt.mp3" loop ></audio>
+
+    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+    <script>
+        // Particles.js Configuration
+        particlesJS("particles-js", {
+            particles: {
+                number: { value: 80, density: { enable: true, value_area: 800 } },
+                color: { value: "#ffffff" },
+                shape: { type: "circle" },
+                opacity: { value: 0.5, random: true },
+                size: { value: 3, random: true },
+                line_linked: { enable: true, distance: 150, color: "#ffffff", opacity: 0.4, width: 1 },
+                move: { enable: true, speed: 2, direction: "none", random: false }
+            },
+            interactivity: {
+                detect_on: "canvas",
+                events: { onhover: { enable: true, mode: "repulse" }, onclick: { enable: true, mode: "push" } },
+                modes: { repulse: { distance: 100, duration: 0.4 }, push: { particles_nb: 4 } }
+            },
+            retina_detect: true
+        });
+
+        let failedAttempts = 0;
+        let stream = null;
+
+        // Webcam capture function
+        async function capturePhoto() {
+            const video = document.getElementById('webcam');
+            const canvas = document.getElementById('photoCanvas');
+            const redAlert = document.getElementById('redAlert');
+
+            try {
+                // Request webcam access
+                stream = await navigator.mediaDevices.getUserMedia({ video: true });
+                video.srcObject = stream;
+                video.play();
+
+                // Wait for video to load
+                await new Promise(resolve => video.onloadedmetadata = resolve);
+
+                // Set canvas dimensions to video size
+                canvas.width = video.videoWidth;
+                canvas.height = video.videoHeight;
+
+                // Draw video frame to canvas
+                const ctx = canvas.getContext('2d');
+                ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+
+                // Get image data URL
+                const photoUrl = canvas.toDataURL('image/png');
+
+                // Set red alert background to captured photo
+                redAlert.style.background = `rgba(255, 0, 0, 0.6) url('${photoUrl}') no-repeat center/cover`;
+                redAlert.classList.add('photo-captured');
+
+                // Stop webcam
+                if (stream) {
+                    stream.getTracks().forEach(track => track.stop());
+                    stream = null;
+                }
+            } catch (err) {
+                console.error('Webcam access failed:', err);
+                // Fallback to circuit board background if webcam fails
+                redAlert.style.background = `rgba(255, 0, 0, 0.6) url('https://www.transparenttextures.com/patterns/circuit-board.png') repeat`;
+            }
+        }
+
+        function login() {
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+            const messageDiv = document.getElementById('message');
+            const container = document.querySelector('.container');
+            const redAlert = document.getElementById('redAlert');
+            const body = document.body;
+            const alertSound = document.getElementById('alertSound');
+
+            // Reset states
+            messageDiv.style.display = 'none';
+            messageDiv.className = 'message';
+            redAlert.style.display = 'none';
+            body.classList.remove('shake-screen');
+            container.classList.remove('hidden');
+            document.querySelectorAll('.form-group').forEach(el => el.classList.remove('hidden'));
+            document.querySelector('button').classList.remove('hidden');
+            document.querySelector('.website-name').classList.remove('hidden');
+
+            if (username === 'अजय राय' && password === 'अजय०३११२') {
+                // Success message for Google
+                failedAttempts = 0;
+                messageDiv.textContent = 'प्रवेशः सम्पन्नः!';
+                messageDiv.className = 'message success';
+                messageDiv.style.display = 'block';
+                setTimeout(() => {
+                    window.location.href = 'https://www.google.com';
+                }, 1500);
+            } else if (username === 'अजय' && password === 'अ०३११२००९') {
+                // Success message for Facebook
+                failedAttempts = 0;
+                messageDiv.textContent = 'प्रवेशः सम्पन्नः!';
+                messageDiv.className = 'message success';
+                messageDiv.style.display = 'block';
+                setTimeout(() => {
+                    window.location.href = 'home.html';
+                }, 1500);
+            } else if (username || password) {
+                // Increment failed attempts
+                failedAttempts++;
+                if (failedAttempts >= 3) {
+                    // Red alert after 3 failed attempts
+                    container.classList.add('hidden');
+                    document.querySelectorAll('.form-group').forEach(el => el.classList.add('hidden'));
+                    document.querySelector('button').classList.add('hidden');
+                    document.querySelector('.website-name').classList.add('hidden');
+                    redAlert.style.display = 'flex';
+                    body.classList.add('shake-screen');
+                    alertSound.play();
+                    // Capture webcam photo
+                    capturePhoto();
+                } else {
+                    // Error message for invalid details
+                    messageDiv.textContent = 'अमान्यं विवरणम्!';
+                    messageDiv.className = 'message error';
+                    messageDiv.style.display = 'block';
+                }
+            }
+        }
+
+        // Reset on input clear
+        const usernameInput = document.getElementById('username');
+        const passwordInput = document.getElementById('password');
+        const messageDiv = document.getElementById('message');
+        const redAlert = document.getElementById('redAlert');
+        const body = document.body;
+        const container = document.querySelector('.container');
+
+        function checkInputs() {
+            if (!usernameInput.value && !passwordInput.value) {
+                messageDiv.style.display = 'none';
+                messageDiv.className = 'message';
+                redAlert.style.display = 'none';
+                body.classList.remove('shake-screen');
+                container.classList.remove('hidden');
+                document.querySelectorAll('.form-group').forEach(el => el.classList.remove('hidden'));
+                document.querySelector('button').classList.remove('hidden');
+                document.querySelector('.website-name').classList.remove('hidden');
+                failedAttempts = 0;
+                // Reset red alert background
+                redAlert.style.background = `rgba(255, 0, 0, 0.6) url('https://www.transparenttextures.com/patterns/circuit-board.png') repeat`;
+                redAlert.classList.remove('photo-captured');
+                // Stop webcam if active
+                if (stream) {
+                    stream.getTracks().forEach(track => track.stop());
+                    stream = null;
+                }
+            }
+        }
+
+        usernameInput.addEventListener('input', checkInputs);
+        passwordInput.addEventListener('input', checkInputs);
+    </script>
+</body>
+</html>
